@@ -1,0 +1,165 @@
+@model PapaBob.Models.Order
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Order</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" id="createForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Size" class="control-label"></label>
+                <select asp-for="Size" class="form-control" asp-items="ViewBag.sizes">
+                </select>
+                <span asp-validation-for="Size" class="text-danger"></span>
+            </div>
+            <br>
+            <div class="form-group">
+                <label asp-for="Crust" class="control-label"></label>
+                <select asp-for="Crust" class="form-control" asp-items="ViewBag.crusts">
+                </select>
+                <span asp-validation-for="Crust" class="text-danger"></span>
+            </div>
+            <br>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Sausage" /> @Html.DisplayNameFor(model => model.Sausage)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Pepperoni" /> @Html.DisplayNameFor(model => model.Pepperoni)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="GreenPeppers" /> @Html.DisplayNameFor(model => model.GreenPeppers)
+                </label>
+            </div>
+             <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Onions" /> @Html.DisplayNameFor(model => model.Onions)
+                </label>
+            </div>
+            <br>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <br>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <br>
+            <div class="form-group">
+                <label asp-for="Zip" class="control-label"></label>
+                <input asp-for="Zip" type="text" class="form-control" />
+                <span asp-validation-for="Zip" class="text-danger"></span>
+            </div>
+            <br>
+            <div class="form-group">
+                <label asp-for="Phone" class="control-label"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            
+            <br>
+            <input id="Cash" type="radio" name="Payment" value="Cash" checked />
+            <label for="Cash">Cash</label>
+            <br>
+            <input id="Credit" type="radio" name="Payment" value="Credit" />
+            <label for="Credit">Credit</label>
+            <br>
+            <br>
+
+
+            <p>Total price: <span id="resultLabel"></span></p>
+            
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<script>
+    const form = document.getElementById('createForm');
+
+    const size = form.querySelector("#Size");
+    const crust = form.querySelector("#Crust");
+    const sausage = form.querySelector("#Sausage");
+    const pepperoni = form.querySelector("#Pepperoni");
+    const onions = form.querySelector("#Onions");
+    const greenpeppers = form.querySelector("#GreenPeppers");
+    const label = form.querySelector("#resultLabel")
+
+        var prices = {};
+        prices["Sausage"] = [2];
+        prices["Pepperoni"] = [1.50];
+        prices["GreenPeppers"] = [1];
+        prices["Onions"] = [1];
+        prices["Small (12 inch = $12)"] = [12];
+        prices["Medium (14 inch = $14)"] = [14];
+        prices["Large (16 inch = $16)"] = [16];
+        prices["Regular"] = [0];
+        prices["Thin"] = [0];
+        prices["Thick (+ $2)"] = [2];
+
+    size.addEventListener('change', calculatePrices);
+    crust.addEventListener('change', calculatePrices);
+    sausage.addEventListener('change', calculatePrices);
+    onions.addEventListener('change', calculatePrices);
+    greenpeppers.addEventListener('change', calculatePrices);
+    pepperoni.addEventListener('change', calculatePrices);
+
+    calculatePrices();
+
+    function calculatePrices() {
+
+        let result = 0.0;
+
+        result += Number(prices[size.value]);
+        result += Number(prices[crust.value]);
+
+        if(sausage.checked)
+        {
+            result += Number(prices['Sausage']);
+        }
+        
+        if(onions.checked)
+        {
+            result += Number(prices['Onions']);
+        }
+
+        if(greenpeppers.checked)
+        {
+            result += Number(prices['GreenPeppers']);
+        }
+
+        if(pepperoni.checked)
+        {
+            result += Number(prices['Pepperoni']);
+        }
+
+        label.innerHTML = "$" + result;
+        console.log(result);
+    }
+
+
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

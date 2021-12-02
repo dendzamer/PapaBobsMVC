@@ -1,0 +1,101 @@
+@model IEnumerable<PapaBob.Models.Order>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Order Management</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Size)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Crust)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sausage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pepperoni)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GreenPeppers)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Onions)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Zip)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Payment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <a asp-action="Delete" asp-route-id="@item.OrderId">Complete &#10003;</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Size)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Crust)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sausage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pepperoni)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GreenPeppers)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Onions)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Zip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Payment)
+            </td>
+            <td>
+                 $@Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.OrderId">Edit</a> 
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
